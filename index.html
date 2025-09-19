@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Predict AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-font: 'Lato', sans-serif;
+            --heading-font: 'Orbitron', sans-serif;
+            --dark-base: #111;
+            --accent-green: #00ffcc;
+            --accent-green-light: #00e676;
+            --text-color: #f0f0f0;
+            --text-secondary: #aaa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            background-color: var(--dark-base);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .section {
+            padding: 6rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .section.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Headings */
+        h1, h2, h3 {
+            font-family: var(--heading-font);
+            color: var(--accent-green);
+            text-shadow: 0 0 5px var(--accent-green);
+        }
+
+        h2.section-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        #hero {
+            text-align: center;
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), #000;
+            display: flex;
+            align-items: center;
+        }
+        
+        #hero .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        #hero h1 {
+            font-size: clamp(2rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+        }
+
+        #hero p.tagline {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 400;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            color: var(--text-secondary);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cta-buttons a {
+            text-decoration: none;
+            color: var(--text-color);
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-green-light));
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+            animation: none;
+        }
+
+        .cta-buttons a:hover {
+            box-shadow: 0 0 10px var(--accent-green), 0 0 20px var(--accent-green);
+            transform: translateY(-3px);
+            animation: none;
+        }
+        
+        /* About Us Section */
+        #about-us {
+            text-align: center;
+        }
+        
+        #about-us p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+
+        /* Our Journey Section */
+        #journey {
+            padding: 6rem 1rem;
+            background-color: var(--dark-base);
+            position: relative;
+        }
+        
+        #journey .container {
+            position: relative;
+            padding-top: 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--accent-green);
+            box-shadow: 0 0 5px var(--accent-green);
+            top: 0;
+            height: calc(100% - 2rem);
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .milestone-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .milestone-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .milestone-item.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .milestone-item::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 5px var(--accent-green);
+            top: 15px;
+            right: -8px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+
+        .right::after {
+            left: -8px;
+        }
+        
+        .milestone-content {
+            padding: 20px 30px;
+            background-color: #222;
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+            width: 280px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .left .milestone-content {
+            float: right;
+        }
+        
+        .right .milestone-content {
+            float: left;
+        }
+
+        .milestone-content h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+        
+        .milestone-content p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+        /* Our Goals Section */
+        #goals {
+            background-color: var(--dark-base);
+            text-align: center;
+        }
+        
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            list-style: none;
+            padding: 0;
+        }
+
+        .goals-list li {
+            background-color: #222;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+            font-size: 1.1rem;
+            text-align: left;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        /* Meet Our Team Section */
+        #team {
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        .team-member h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-member p.role {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .linkedin-button {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--text-color);
+            border: 1px solid var(--accent-green);
+            padding: 0.5rem 1.25rem;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+
+        .linkedin-button:hover {
+            background-color: var(--accent-green);
+            color: var(--dark-base);
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        /* Connect With Us Section */
+        #contact {
+            background-color: var(--dark-base);
+            text-align: center;
+        }
+        
+        #contact .intro-text {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        #contact .intro-text p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            padding: 2rem;
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+            text-align: left;
+        }
+
+        .contact-form h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--accent-green);
+            background-color: #333;
+            color: var(--text-color);
+            border-radius: 5px;
+            font-family: var(--primary-font);
+            font-size: 1rem;
+            box-shadow: inset 0 0 5px rgba(0, 255, 204, 0.2);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .contact-form button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-green-light));
+            color: var(--dark-base);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background: linear-gradient(45deg, var(--accent-green-light), var(--accent-green));
+        }
+        
+        .social-icons {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .social-icons a {
+            font-size: 1.8rem;
+            color: var(--accent-green);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            text-shadow: 0 0 5px var(--accent-green);
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-green-light);
+            text-shadow: 0 0 10px var(--accent-green-light);
+        }
+
+
+        /* Footer */
+        #footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #000;
+            border-top: 1px solid var(--accent-green);
+        }
+
+        #footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Utility Classes */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+            @media screen and (max-width: 600px) {
+                .timeline::after {
+                    left: 31px;
+                    height: calc(100% - 2rem);
+                }
+
+                .milestone-item {
+                    width: 100%;
+                    padding-left: 70px;
+                    padding-right: 25px;
+                }
+                
+                .milestone-item::after {
+                    left: 15px;
+                }
+                
+                .right {
+                    left: 0%;
+                }
+
+                .milestone-item.right::after {
+                    left: 23px;
+                }
+
+                .milestone-content {
+                    width: 100%;
+                    max-width: 300px;
+                }
+            }
+    
+        #bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+</style>
+</head>
+<body>
+
+    <section id="hero" class="section">
+
+        <video id="bg-video" autoplay loop muted="false" playsinline>
+            <source src="pulsepredit.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="container">
+            <h1>Pulse Predict AI</h1>
+            <p class="tagline">Building the future of elderly care with AI-powered wearable health monitoring</p>
+            <div class="cta-buttons">
+                <a href="#journey">Explore Our Journey</a>
+                <a href="#contact">Join Our Mission</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-us" class="section">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <p>We are a health-tech startup focused on elderly care and wellness. Our flagship product, the Vital Band, is a wearable health monitoring device that tracks 25+ health and fitness metrics including SpO2, heart rate, falls, motion, and GPS location. Our goal is to empower families with real-time health insights and timely alerts.</p>
+        </div>
+    </section>
+
+    <section id="journey" class="section">
+        <div class="container">
+            <h2 class="section-title">Our Journey</h2>
+            <div class="timeline">
+                <div class="milestone-item left">
+                    <div class="milestone-content">
+                        <h4>2025</h4>
+                        <p>Idea born</p>
+                    </div>
+                </div>
+                <div class="milestone-item right">
+                    <div class="milestone-content">
+                        <h4>August 2025</h4>
+                        <p>Prototype V1 Completed</p>
+                    </div>
+                </div>
+                <div class="milestone-item left">
+                    <div class="milestone-content">
+                        <h4>Mid September 2025</h4>
+                        <p>Prototype V2 In Progress</p>
+                    </div>
+                </div>
+                <div class="milestone-item right">
+                    <div class="milestone-content">
+                        <h4>Jan 2026</h4>
+                        <p>MVP Development</p>
+                    </div>
+                </div>
+                <div class="milestone-item left">
+                    <div class="milestone-content">
+                        <h4>Mid 2026</h4>
+                        <p>Testing & Clinical Trials</p>
+                    </div>
+                </div>
+                <div class="milestone-item right">
+                    <div class="milestone-content">
+                        <h4>Launch 🚀</h4>
+                        <p>Official Product Launch</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="goals" class="section">
+        <div class="container">
+            <h2 class="section-title">Our Goals</h2>
+            <ul class="goals-list">
+                <li>Provide safe, accurate, real-time health monitoring for elderly people.</li>
+                <li>Reduce emergency response time with instant alerts.</li>
+                <li>Make healthcare affordable, accessible, and preventive.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="team" class="section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h3>Yuvraj Sharma</h3>
+                    <p class="role">CEO, Lead Team & Hardware Engineer</p>
+                    <a href="https://www.linkedin.com/in/yuvraj-sharma-3138b4312/" class="linkedin-button" target="_blank">LinkedIn</a>
+                </div>
+                <div class="team-member">
+                    <h3>Tushar Jain</h3>
+                    <p class="role">CFO, Finance & Business Management</p>
+                    <a href="https://www.linkedin.com/in/tushar-jain-781149322/" class="linkedin-button" target="_blank">LinkedIn</a>
+                </div>
+                <div class="team-member">
+                    <h3>Niranjan K</h3>
+                    <p class="role">CPO, App Developer</p>
+                    <a href="https://www.linkedin.com/in/niranjan-k-140ba9322/" class="linkedin-button" target="_blank">LinkedIn</a>
+                </div>
+                <div class="team-member">
+                    <h3>Abhishek Rajauria</h3>
+                    <p class="role">CTO, AI/ML Developer</p>
+                    <a href="https://www.linkedin.com/in/abhishek-rajauria-806a37288/" class="linkedin-button" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="intro-text">
+                <h2>Ready to Make Healthcare Better?</h2>
+                <p>Join us in creating safer, more accessible healthcare solutions for elderly people worldwide.</p>
+            </div>
+            <div class="cta-buttons">
+                <a href="mailto:vitalhealthtechsolution@gmail.com">Start a Conversation</a>
+                <a href="https://www.instagram.com/vitalhealthtech/" target="_blank">Follow Our Story</a>
+            </div>
+            
+            <div class="contact-form">
+                <h3>Get In Touch</h3>
+                <p>Reach out to us directly at:</p>
+                <p><strong>vitalhealthtechsolution@gmail.com</strong></p>
+                <form action="#" method="POST"> 
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+
+            <div class="social-icons">
+                <a href="https://www.instagram.com/vitalhealthtech/" target="_blank" title="Instagram">📷</a>
+                <a href="mailto:vitalhealthtechsolution@gmail.com" title="Email">📧</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p>Copyright &copy; 2025 Pulse Predict AI</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Vertical timeline fade-in animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        document.querySelectorAll('.milestone-item').forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
